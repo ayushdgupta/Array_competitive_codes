@@ -1,0 +1,26 @@
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+Solution - 1. take a Map<Integer, Integer> and store values of aarays as keys and indices as values in map.
+2. before inserting a value into map just check if target - nums[i] exists in map then you find your pair otherwise store.
+
+Code :
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> indicesMap = new HashMap<>();
+        int[] result = new int[2];
+        for(int i = 0 ; i < nums.length; i++){
+            if(indicesMap.containsKey(target - nums[i])){
+                result[0] = indicesMap.get(target - nums[i]);
+                result[1] = i;
+                break;
+            }
+            indicesMap.put(nums[i], i);
+        }
+        return result;
+    }   
+}
