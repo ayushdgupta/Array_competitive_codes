@@ -1,0 +1,28 @@
+Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
+
+Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:
+
+Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.
+Return k
+
+Solution: take one variable in the start (i) and one in the end (j) and whenever we will find an element equal to val then do a swap with b/w i and j and do a j-- but not i++.
+
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int i = 0;
+        int k = 0;
+        int numsLength = nums.length;
+        int j = nums.length-1;
+        while(i <= j){
+            if(nums[i] == val){
+                nums[i] = nums[j];
+                nums[j] = val;
+                j--;
+            } else{
+                i++;
+                k++;
+            }
+        }
+        return k;
+    }
+}
