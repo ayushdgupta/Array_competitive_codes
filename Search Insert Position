@@ -1,0 +1,25 @@
+question: Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+Solution: straight forward binary search but when we did n't get element in the array then we need to return the index where 'low' is standing bcz variable 'middle' make sures till end that 'low' should stands on the element
+which is greater than target and it's previous element is smaller than target (high >= low).
+
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int low = 0, high = nums.length-1;
+        int middle;
+        while(high >= low){
+            middle = (low + high)/2;
+            if(target == nums[middle]){
+                return middle;
+            }
+            if(nums[middle] < target){
+                low = middle + 1;
+            } else{
+                high = middle -1;
+            }
+        }
+        return low;
+    }
+}
