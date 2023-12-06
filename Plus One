@@ -1,0 +1,34 @@
+Question: You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+
+Increment the large integer by one and return the resulting array of digits.
+
+Solution: first i'll check if the last index is not nine then I need to return the input array as is but only needs to increment the last index value by 1, but if last value is not 9 then i'll look for non-9 value index
+if found any index then increment the value by 1 at that index and return if no index then return a new array with length + 1 with first digit as 1 and rest 0's.
+
+class Solution {
+    public int[] plusOne(int[] digits) {
+        int result[];
+        int length = digits.length, index = -1;
+        if(digits[length - 1] != 9){
+            digits[length - 1] = digits[length - 1] + 1;
+            return digits;
+        } else{
+            for(int i = length - 1; i >= 0; i--){
+                if(digits[i] != 9){
+                    index = i;
+                    digits[i] = digits[i] + 1;
+                    break;
+                } else {
+                    digits[i] = 0;
+                }
+            }
+            if(index != -1){
+                return digits;
+            } else{
+                result = new int[length + 1];
+                result[0] = 1;
+                return result;
+            }
+        }
+    }
+}
