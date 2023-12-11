@@ -1,0 +1,26 @@
+Question: You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+
+Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+
+The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+
+Intutuion: It's given that firstArray has size of m+n where last n elements are all 0's so we can use those positions for our replacements so we can start doing comparisons from the last i.e. compare the largest elements
+and put them on the last and so on, in that manner no need to take care of any third element so always two elements we need to take care.
+
+code:
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int lastIndex = m+n-1;
+        while(n>0){
+            if(m > 0 && nums1[m-1] > nums2[n-1]){
+                nums1[lastIndex] = nums1[m-1];
+                m--;
+            } else{
+                nums1[lastIndex] = nums2[n-1];
+                n--;
+            }
+            lastIndex--;
+        }
+
+    }
+}
