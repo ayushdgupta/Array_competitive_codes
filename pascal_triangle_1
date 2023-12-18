@@ -118,3 +118,6 @@ public List<List<Integer>> generate(int numRows)
     return result;
 }
 }
+
+but in this approach if you see we are referring the older calculated list which causes usage of space but what if we have been asked to provide only ith row value w/o using any extra space then we need to go
+with M2 solution.
