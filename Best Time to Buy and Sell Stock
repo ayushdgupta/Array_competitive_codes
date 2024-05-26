@@ -1,0 +1,27 @@
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+Ans. 
+1. First you need to start with first position and assume that it's the min. price that you are getting to buy the stock so just buy it
+2. next calculate two things first is overall profit i.e. OP (profit till now if I buy at somepoint and sold it at value greater than that till now) and second is profit if you sold this stock today i.e. PIST.
+3. if PIST > OP then update OP else leave OP as is
+4. and for every iteration you need to check for min.price, if you found min. price at any time then leave old stock and buy them at today's price. and do the same thing in iteration.
+
+class Solution {
+    public int maxProfit(int[] prices) {
+        int minPrice = Integer.MAX_VALUE, overallProfit = 0, profitIfSoldToday = 0;
+        for(int price : prices){
+            if(price < minPrice){
+                minPrice = price;
+            }
+            profitIfSoldToday = price - minPrice;
+            if(overallProfit < profitIfSoldToday){
+                overallProfit = profitIfSoldToday;
+            }
+        }
+        return overallProfit;
+    }
+}
