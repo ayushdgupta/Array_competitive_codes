@@ -1,0 +1,33 @@
+Given an array nums of size n, return the majority element.
+
+The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+Solution - solution is Moore’s Voting Algorithm.
+
+Intution --> See if an element is coming more than n/2 times in an array so if we do a count of repeating element then definitely in the end we will have atleast count = 1 for the repeating element i.e.
+1. first traverse all the array elements one by one and then check if the next element is sameas previous one then increase the count or else decrease
+2. if the count is 0 then assume current element is major element and then repeat step 1.
+3. so in the end we will get the count atleast 1 for repeating element.
+
+code -->
+class Solution {
+    public int majorityElement(int[] nums) {
+        int majIndex = 0, majorNo = nums[0], count = 1;
+        int half = nums.length / 2;
+        for(int i=1; i < nums.length; i++){
+            if(count > half){
+                break;
+            }
+            if(majorNo == nums[i]){
+                count++;
+            } else {
+                count = count - 1;
+            }
+            if(count == 0){
+                majorNo = nums[i];
+                count++;
+            }
+        }
+        return majorNo;
+    }
+}
