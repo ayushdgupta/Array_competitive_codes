@@ -1,0 +1,41 @@
+Question --> Given an integer array nums and an integer k, return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k.
+
+
+Solution_1 --> This solution is not optimal
+
+class Solution {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Map<Integer, Integer> indicesMap = new HashMap<>();
+        for(int i = 0; i < nums.length; i++){
+            int currentValue = nums[i];
+            if(indicesMap.get(currentValue) != null){
+                if(i - indicesMap.get(currentValue) <= k){
+                    return true;
+                }
+            }
+            indicesMap.put(currentValue, i);
+        }
+        return false;
+    }
+}
+
+Solution_2 --> optimal
+
+  Intutuion --> see whenever we will cross this condition i - firstIndex > k, then we need to remove the first element from our requirement bcz we don't required that element any more, so weneed to remove it and
+  update first element index kind of or subset of that array should never contain those elements.
+
+  class Solution {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> numsSet = new HashSet<>();
+        for(int i = 0; i < nums.length; i++){
+            if(i > k){
+              // here we are removing the elements which are not required right from the start i.e. let k = 2 and i = 4 so elements till i = 1 (bcz 4 - 2 = 2 till i = 2 there is a possibility we might get result) in set is of no use so remove them
+                numsSet.remove(nums[i - k - 1]);
+            }
+            if(!numsSet.add(nums[i])){
+                return true;
+            }
+        }
+        return false;
+    }
+}
