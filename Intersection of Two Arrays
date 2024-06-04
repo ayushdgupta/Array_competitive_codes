@@ -1,0 +1,68 @@
+Question --> Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.
+
+Example 1:
+
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2]
+
+Solution -->  
+
+M1-> sort both the arrays and do the comparison one by one O(nlog(n)).
+
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        int i = 0, j = 0;
+        int len1 = nums1.length, len2 = nums2.length;
+        Set<Integer> result = new HashSet<>();
+        while(i < nums1.length && j < nums2.length){
+            if(nums1[i] == nums2[j]){
+                result.add(nums1[i]);
+                i++;
+                j++;
+            } else{
+                if(nums1[i] > nums2[j]){
+                    j++;
+                } else{
+                    i++;
+                }
+            }
+        }
+        return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
+
+M2-> Solve this in O(m + n) time and O(m) space. store the one array completely into a set and then for second array check elements present in the frst set or not.
+
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        int len1 = nums1.length, len2 = nums2.length;
+        Set<Integer> baseSet;
+        if(len1 < len2){
+            baseSet = createBaseSet(nums1);
+            return returnIntersectedArray(baseSet, nums2);
+        } else{
+            baseSet = createBaseSet(nums2);
+            return returnIntersectedArray(baseSet, nums1);
+        }
+    }
+
+    private Set<Integer> createBaseSet(int[] nums){
+        Set<Integer> baseSet = new HashSet<>();
+        for(int num : nums){
+            baseSet.add(num);
+        }
+        return baseSet;
+    }
+
+    private int[] returnIntersectedArray(Set<Integer> baseSet, int[] nums){
+        Set<Integer> resultSet = new HashSet<>();
+        for(int num : nums){
+            if(baseSet.contains(num)){
+                resultSet.add(num);
+            }
+        }
+        return resultSet.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
