@@ -1,0 +1,45 @@
+Question -> Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+
+Example 1:
+
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2,2]
+
+Solution --> use a hashMap to store the frequency of elements from one array and use function getOrDefault().
+
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        int len1 = nums1.length, len2 = nums2.length;
+        Map<Integer, Integer> baseMap;
+        if(len1 < len2){
+            baseMap = createBaseMap(nums1);
+            return returnIntersectedArray(baseMap, nums2);
+        } else{
+            baseMap = createBaseMap(nums2);
+            return returnIntersectedArray(baseMap, nums1);
+        }
+    }
+
+    private Map<Integer, Integer> createBaseMap(int[] nums){
+        Map<Integer, Integer> countMap = new HashMap<>();
+        for(int num : nums){
+            if(countMap.get(num) == null){
+                countMap.put(num, 1);
+            } else{
+                countMap.put(num, countMap.get(num) + 1);
+            }
+        }
+        return countMap;
+    }
+
+    private int[] returnIntersectedArray(Map<Integer, Integer> baseMap, int[] nums){
+        List<Integer> result = new ArrayList<>();
+        for(int num : nums){
+            if(baseMap.get(num) != null && baseMap.get(num) > 0){
+                result.add(num);
+                baseMap.put(num, baseMap.get(num) - 1);
+            }
+        }
+        return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
