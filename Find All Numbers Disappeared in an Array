@@ -1,0 +1,29 @@
+Given an array nums of n integers where nums[i] is in the range [1, n], return an array of all the integers in the range [1, n] that do not appear in nums.
+
+Example 1:
+
+Input: nums = [4,3,2,7,8,2,3,1]
+Output: [5,6]
+
+Solution -> traverse the array right from begining and for every value at index (nums[index]) make the corresponding value - 1 as negative value i.e. if nums[0] = 4 then do nums[3] = nums[3] * -1, And then traverse
+the array again from the beginning then see if value of any index i is +ve then add i+1 in result list.
+
+class Solution {
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        int size = nums.length;
+        for(int i = 0; i < size; i++){
+            int index = Math.abs(nums[i]) - 1;
+
+            if(nums[index] > 0){
+                nums[index] = nums[index] * -1; 
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        for(int i = 0; i < size; i++){
+            if(nums[i] > 0){
+                result.add(i+1);
+            }
+        }
+        return result;
+    }
+}
