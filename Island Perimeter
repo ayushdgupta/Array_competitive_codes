@@ -1,0 +1,79 @@
+You are given row x col grid representing a map where grid[i][j] = 1 represents land and grid[i][j] = 0 represents water.
+
+Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells).
+
+The island doesn't have "lakes", meaning the water inside isn't connected to the water around the island. One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100. Determine the perimeter of the island.
+
+Example 1:
+
+Input: grid = [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]
+Output: 16
+Explanation: The perimeter is the 16 yellow stripes in the image above.
+
+https://leetcode.com/problems/island-perimeter/description/  -- question link
+
+Solution--> 
+M1-> Straight forward recursion aaproach i.e. once you visited a grid mark it as -1 and search for it's result from it's neighbours
+
+class Solution {
+    public int islandPerimeter(int[][] grid) {
+        int row = grid.length, col = grid[0].length;
+        for(int i = 0;i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(grid[i][j] == 1){
+                    int perim = findPerim(grid, i, j, row, col);
+                    return perim;
+                }
+            }
+        }
+        return 0;
+    }
+
+    private int findPerim(int[][] grid, int currRow, int currCol, int totalRow, int totalCol){
+        if(currRow >= totalRow || currCol >= totalCol || currCol < 0 || currRow < 0){
+            return 1;
+        }
+        if(grid[currRow][currCol] == 0){
+            return 1;
+        }
+        if(grid[currRow][currCol] == -1){
+            return 0;
+        }
+        // Mark current grid as -1 so if it'll be traversed again then it should not involved in current iteration.
+        grid[currRow][currCol] = -1;
+        int count = 0;
+        count = count + findPerim(grid, currRow - 1, currCol, totalRow, totalCol) + findPerim(grid, currRow + 1, currCol, totalRow, totalCol) + findPerim(grid, currRow, currCol + 1, totalRow, totalCol) + findPerim(grid, currRow, currCol - 1, totalRow, totalCol);
+        return count;
+    }
+}
+
+M2 --> traverse the each row and column and check if current grid is 1 then increment the island count by 1 and then count it's neighbour but for the current grid (grid[i][j]) following will be the neighbours -
+grid[i+1][j] and grid [i][j+1]
+
+why not the previous ones (i.e. grid[i-1][j] and grid [i][j-1]) so just imagine it from (0,0) then it's neighbour will be ((0,1) & (1,0)) so like wise for (0,1) neighbours will be ((0,2), (1,1)) and for (0,0) is 
+already taken care by previous one -
+
+class Solution {
+    public int islandPerimeter(int[][] grid) {
+        int row = grid.length, col = grid[0].length;
+        int islands = 0, neighbour = 0;
+        for(int i = 0;i < row; i++){
+            for(int j = 0; j < col; j++){
+                if(grid[i][j] == 1){
+                    islands++;
+
+                    // check it's neighbour row wise
+                    if(i < row - 1 && grid[i + 1][j] == 1){
+                        neighbour++;
+                    }
+
+                    // check it's neighbour col wise
+                    if(j < col - 1 && grid[i][j + 1] == 1){
+                        neighbour++;
+                    }
+                }
+            }
+        }
+        return 4*islands - 2*neighbour;
+    }
+}
