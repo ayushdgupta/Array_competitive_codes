@@ -1,0 +1,41 @@
+Question --> Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.
+
+In the American keyboard:
+
+the first row consists of the characters "qwertyuiop",
+the second row consists of the characters "asdfghjkl", and
+the third row consists of the characters "zxcvbnm".
+
+Example 1:
+
+Input: words = ["Hello","Alaska","Dad","Peace"]
+Output: ["Alaska","Dad"]
+
+Solution --> create an array of size 26 which will store the row position of all characters (a to z) and then iterate all the words one by one and check the row num of every character -
+
+class Solution {
+    public String[] findWords(String[] words) {
+        // array will contain row num of all characters from 'a' to 'z'.
+        int rows[] = {1, 2, 2, 1, 0, 1, 1, 1, 0, 1, 1, 1, 2, 2, 0, 0, 0, 0, 1, 0, 0, 2, 0, 2, 0, 2};
+
+        List<String> validWords = new ArrayList<>();
+        for(String word : words){
+            String s = word.toLowerCase();
+            // (int) 'a' = 97 ASCII Value
+            int row = rows[s.charAt(0) - (int) 'a'];
+            boolean isValid = true;
+            char[] charArray = s.toCharArray();
+            for(int i = 1; i < charArray.length; i++){
+                if(row != rows[(int) charArray[i] - (int) 'a']){
+                    isValid = false;
+                    break;
+                }
+            }
+            if(isValid){
+                validWords.add(word);
+            }
+        }
+
+        return validWords.toArray(String[]::new);
+    }
+}
