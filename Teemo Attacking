@@ -1,0 +1,44 @@
+Our hero Teemo is attacking an enemy Ashe with poison attacks! When Teemo attacks Ashe, Ashe gets poisoned for a exactly duration seconds. More formally, an attack at second t will mean Ashe is poisoned during the inclusive time interval [t, t + duration - 1]. If Teemo attacks again before the poison effect ends, the timer for it is reset, and the poison effect will end duration seconds after the new attack.
+
+You are given a non-decreasing integer array timeSeries, where timeSeries[i] denotes that Teemo attacks Ashe at second timeSeries[i], and an integer duration.
+
+Return the total number of seconds that Ashe is poisoned.
+
+Example 1:
+
+Input: timeSeries = [1,4], duration = 2
+Output: 4
+Explanation: Teemo's attacks on Ashe go as follows:
+- At second 1, Teemo attacks, and Ashe is poisoned for seconds 1 and 2.
+- At second 4, Teemo attacks, and Ashe is poisoned for seconds 4 and 5.
+Ashe is poisoned for seconds 1, 2, 4, and 5, which is 4 seconds in total.
+
+Solution --> A simple traversal solution (also same as making dates continuous based on plan)
+
+class Solution {
+    public int findPoisonedDuration(int[] timeSeries, int duration) {
+        int startTime = timeSeries[0];
+        int endTime = calcTime(startTime, duration);
+        int totalCount = 0;
+        for(int i = 1; i < timeSeries.length; i++){
+            if(endTime >= timeSeries[i]){
+                // as endTime of previousone crosses the new one so we need to reset
+                endTime = calcTime(timeSeries[i], duration);
+            } else{
+                // As EndTime of previos one is completed successfully so we need to add the current time completely
+                totalCount = totalCount + difference(startTime, endTime);
+                startTime = timeSeries[i];
+                endTime = calcTime(startTime, duration);
+            }
+        }
+        return totalCount + difference(startTime, endTime);
+    }
+
+    private int calcTime(int time, int duration){
+        return time + duration - 1;
+    }
+
+    private int difference(int st,int et){
+        return (et - st) + 1;
+    }
+}
