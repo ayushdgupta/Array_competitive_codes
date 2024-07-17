@@ -1,0 +1,59 @@
+iven an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+
+You must write an algorithm that runs in O(n) time.
+
+ 
+
+Example 1:
+
+Input: nums = [100,4,200,1,3,2]
+Output: 4
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+Example 2:
+
+Input: nums = [0,3,7,2,5,8,4,6,0,1]
+Output: 9
+
+Solution --
+
+intution -- First store all the elements in a SET now start from the begining and find out the count of longest sequence to which that the particular number belongs. but if we do so then suppose we have nums array be like [1, 2, 5, 4, 3, 6, 7]
+            then we might do unnecessary repeatitive count for 1, 2, 3, ... so what we can do here to avoid this issue that we already counted all those numbers when we did the counting for 1 or 2 in the begining then
+            once there counting is done then after that those no. is of no use for me bcz they not gonna participate in any other sequence so I can delete those numbers directly from my set peacefully, it'll reduce my unnecessary comptation
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> numSet = new HashSet<>();
+        for(int i=0; i < nums.length; i++){
+            numSet.add(nums[i]);
+        }
+
+        int maxCount = 0;
+        for(int i=0; i < nums.length; i++){
+            int leftCount = countLeftSequence(numSet, i, nums[i] - 1);
+            int rightCount = countRightSequence(numSet, i, nums[i] + 1);
+            maxCount = Math.max(maxCount, leftCount + rightCount + 1);
+            numSet.remove(nums[i]);
+        }
+        return maxCount;
+    }
+
+    public int countLeftSequence(Set<Integer> numSet, int index, int num){
+        int count = 0;
+        while(numSet.contains(num)){
+            numSet.remove(num);
+            count++;
+            num--;
+        }
+        return count;
+    }
+
+    public int countRightSequence(Set<Integer> numSet, int index, int num){
+        int count = 0;
+        while(numSet.contains(num)){
+            numSet.remove(num);
+            count++;
+            num++;
+        }
+        return count;
+    }
+}
