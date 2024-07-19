@@ -1,0 +1,51 @@
+Question - Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.
+
+A subarray is a contiguous non-empty sequence of elements within an array.
+
+Example 1:
+
+Input: nums = [1,1,1], k = 2
+Output: 2
+Example 2:
+
+Input: nums = [1,2,3], k = 3
+Output: 2
+
+Intutuion -- take a singlr array and calculate the sum for each element like sum[i] = sum[i-1] + nums[i] like that. After calculating the sum now calculate the sum between each and every combo like
+              a[2][7] i.e. sum from 2 to 7 = sum[0][7] - sum[0][1];
+
+Solution --
+
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int size = nums.length;
+        int[] matrix = new int[size];
+        int count = 0, sum = 0;
+        for(int i = 0; i < size; i++){
+            sum = sum + nums[i];
+            matrix[i] = sum;
+            if(k == sum){
+                count++;
+            }
+        }    
+
+        for(int i = 1; i < size; i++){
+            for(int j = i; j < size; j++){
+                int value = 0;
+                if(j==i){
+                    value = nums[j];
+                } else{
+                    value = matrix[j] - matrix[i-1];
+                }
+
+                if(value == k){
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+}
+
+well this solution is taking around 2107 ms furthure optmization is possible in terms of execution time but not in any complexity.
