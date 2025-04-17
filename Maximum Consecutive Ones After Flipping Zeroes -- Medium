@@ -1,0 +1,50 @@
+Question - Given a binary array arr[] and an integer k, find the maximum length of a subarray containing all ones after flipping at most k zeroes to 1’s.
+
+Examples: 
+
+Input: arr[] = {1, 0, 1}, k = 1
+Output: 3
+Explanation: By flipping the zero at index 1, all the array elements become one.
+
+
+Input: arr[] = {1, 0, 0, 1, 0, 1, 0, 1}, k = 2
+Output: 5 
+Explanation: By flipping the zeroes at indices 4 and 6, we get the longest subarray from index 3 to 7 containing all 1’s.
+
+https://www.geeksforgeeks.org/find-zeroes-to-be-flipped-so-that-number-of-consecutive-1s-is-maximized/
+
+Solution - The idea is to use two pointers, start and end, to mark the start and end points of the current subarray (or window). Initially, both pointers are set at the beginning of 
+the array. Continuously increase the size of the current window by incrementing the end pointer while keeping track of the count of zeros within the window. If at any point the count of 
+zeros exceeds k, shrink the window by incrementing the start pointer until the count is reduced to k. The result will be the maximum length among all windows that contain at most k zeros.
+
+static int maxOnes(int[] arr, int k) {
+        int res = 0;
+
+        // Start and end pointer of the window
+        int start = 0, end = 0;
+
+        // Counter to keep track of zeros in current window
+        int cnt = 0;
+
+        while (end < arr.length) {
+            if (arr[end] == 0)
+                cnt++;
+
+            // Shrink the window from left if
+            // no. of zeroes are greater than k
+            while (cnt > k) {
+                if (arr[start] == 0)
+                    cnt--;
+
+                start++;
+            }
+
+            res = Math.max(res, (end - start + 1));
+          
+            // Increment the end pointer to expand the window
+            end++;
+        }
+
+        return res;
+    }
+
