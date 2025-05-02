@@ -1,0 +1,29 @@
+Question -- We are given an array consisting of n elements. At each operation we can select any one element and increase rest of n-1 elements by 1. We have to make all elements equal performing such operation as many times you wish. Find the minimum number of operations needed for this.
+
+Examples: 
+
+Input: arr[] = [1, 2, 3]
+Output: 3
+Explanation: 
+Operation 1 : Increase all except 3rd, we get 2, 3, 3
+Operation 2 : Increase all except 3rd, we get 3, 4, 3
+Operation 3 : Increase all except 2nd, we get 4, 4, 5
+
+Input: arr[] = [4, 3, 4]
+Output: 2
+Explanation:
+Operation 1 : Increase all except 3rd, we get 5, 4, 4
+Operation 2 : Increase all except 1st, we get 5, 5, 5
+
+https://www.geeksforgeeks.org/minimum-number-increment-operations-make-array-elements-equal/
+https://www.geeksforgeeks.org/top-50-array-coding-problems-for-interviews/
+
+Solution - [Expected Approach] Using Direct Formula – O(n) Time and O(1) Space
+If we took a closer look at each operation as well problem statement we will find that increasing all n-1 element except the largest one is similar to decreasing the largest element only. So, the smallest elements need not to decrease any more and rest of elements will got decremented upto the smallest one.
+
+The optimized approach calculates the total sum of the array and identifies the smallest element.
+It subtracts n * smallest element from the sum to find the minimum number of operations.
+
+
+think in the way of minima like phle minima ko maximum se equal karvana padega then during that process middle elements bhi badh gaye hoge pr kitna badhe hoge i.e. apni original height - original minimum value
+think this problem in a bar graph.
