@@ -35,6 +35,7 @@ Output: 0
 Explanation: You cannot make a fair array after removing any index.
 
 https://leetcode.com/problems/ways-to-make-a-fair-array/description/
+https://www.geeksforgeeks.org/count-ways-to-make-sum-of-odd-and-even-indexed-elements-equal-by-removing-an-array-element/#expected-approach-using-one-variable-on-time-and-o1-space
 
 Solution - 1. first calculate and store the sum of all odd indices and even indices elements.
            2. iterate the array and remove the current element and check now whether sum of odd indices == even indices and onemore thing after deleting one element all the even indices element in the right of
