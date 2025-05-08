@@ -1,0 +1,63 @@
+Question -- Given an array arr[] containing only non-negative integers, your task is to find a continuous subarray (a contiguous sequence of elements) whose sum equals a specified value target. 
+You need to return the 1-based indices of the leftmost and rightmost elements of this subarray. You need to find the first subarray whose sum is equal to the target.
+
+Note: If no such array is possible then, return [-1].
+
+Examples:
+
+Input: arr[] = [1, 2, 3, 7, 5], target = 12
+Output: [2, 4]
+Explanation: The sum of elements from 2nd to 4th position is 12.
+Input: arr[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], target = 15
+Output: [1, 5]
+Explanation: The sum of elements from 1st to 5th position is 15.
+Input: arr[] = [5, 3, 4], target = 2
+Output: [-1]
+Explanation: There is no subarray with sum 2.
+
+https://www.geeksforgeeks.org/must-do-coding-questions-for-companies-like-amazon-microsoft-adobe/
+https://www.geeksforgeeks.org/problems/subarray-with-given-sum-1587115621/1
+
+Solution - Here it's given that we do have only non-negative i.e. positive no's so sliding window will work here. like start from begining and trace the sum is sum is equal to target then return, if less than 
+           target then include current no in sum, but if greater than target than slice the windowtill we are not getting lesser or equal sum.
+
+Same kind of question we have on Leetcode but there they are asking for total subarray count whose sum is equal to target and there they have negative no's as well sothat problem can not be solved with 
+sliding window because of negative numbers so there we have some different logic 
+
+https://leetcode.com/problems/subarray-sum-equals-k/
+
+class Solution {
+    static ArrayList<Integer> subarraySum(int[] arr, int target) {
+        // code here
+        int sum = 0, len = arr.length, index = 0, i = 0;
+        ArrayList<Integer> result = new ArrayList<>();
+        while(i < len){
+            if(arr[i] == target){
+                result.add(i+1);
+                result.add(i+1);
+                return result;
+            } else if (arr[i] > target){
+                sum = 0;
+                index = i + 1;
+                i++;
+            } else{
+                if(sum + arr[i] == target){
+                    result.add(index+1);
+                    result.add(i+1);
+                    return result;
+                } else if(sum + arr[i] < target){
+                    sum = sum + arr[i];
+                    i++;
+                } else {
+                    // slice the window
+                    while(index < i && (sum + arr[i]) > target){
+                        sum = sum - arr[index];
+                        index++;
+                    }
+                }
+            }
+        }
+        result.add(-1);
+        return result;
+    }
+}
